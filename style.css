@@ -1,0 +1,35 @@
+div {
+
+    display: flex;
+    /* background-color: yellow; */
+padding: 20%;
+margin: 20em; 
+border-radius: 90%;
+max-width: 7em;
+background-color: rgb(185, 23, 23);
+}
+
+.active {
+
+background-color: aqua;
+
+}
+
+
+body{
+
+    background-color: black;
+}
+
+#quote{
+
+    
+}
+
+
+#author{
+
+
+
+}
+
