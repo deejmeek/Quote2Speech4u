@@ -11,13 +11,16 @@ console.log(quoteP)
 
 divTog.addEventListener("click", async function fetchData() {
 
-   
+   window.speechSynthesis.cancel();
    const res = await fetch("https://programming-quotesapi.vercel.app/api/random");
 const data = await res.json();
 quoteP.innerHTML = data.quote;
 authorP.innerHTML = data.author;
 
 
+   let msg = data.quote;
+   const utterance = new SpeechSynthesisUtterance(msg);
+   speechSynthesis.speak(utterance);
    
    
    
@@ -34,9 +37,16 @@ return;
 
 
 
-fetchData();
+// fetchData();
 
+// document.getElementById("btn")
+// .addEventListener("click", () => {
 
+// var msg = "glad to meet you friend";
+// const utterance = new SpeechSynthesisUtterance(msg);
+// speechSynthesis.speak(utterance);
+
+// })
 
 
 
