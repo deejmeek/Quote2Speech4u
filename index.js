@@ -7,11 +7,11 @@ console.log(quoteP)
 // console.log(divTog)
 
 
-//todo-  get t2p working
+//todo-  get t2p to toggle class
 
 divTog.addEventListener("click", async function fetchData() {
 
-   window.speechSynthesis.cancel();
+   speechSynthesis.cancel();
    const res = await fetch("https://programming-quotesapi.vercel.app/api/random");
 const data = await res.json();
 quoteP.innerHTML = data.quote;
@@ -22,18 +22,24 @@ authorP.innerHTML = data.author;
    const utterance = new SpeechSynthesisUtterance(msg);
    speechSynthesis.speak(utterance);
    
+
+
+utterance.addEventListener("end", (event) => {
+divTog.classList.remove('active')
+
+})
+  
    
    
     divTog.classList.add('active')
-        setTimeout(() => {
-            divTog.classList.remove('active')
+        // setTimeout(() => {
+        //     
 
-            },1000)
+        //     },1000)
 
 
 return;
         });
-
 
 
 
