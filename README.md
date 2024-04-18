@@ -54,6 +54,7 @@ Accessibility options for those with vision impairment.
 Better stylings - especially the favourite list.
 Multi device compatibilty
 Media buttons to change pitch/rate/language of quote. Also play/pause buttons.
+Improve UX/UI - make widget more obvious - explain the quote ID.
 
 Quote2Speech4u
 
