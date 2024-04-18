@@ -1,38 +1,64 @@
 div {
-
-    display: flex;
-    /* background-color: yellow; */
-padding: 20%;
-margin: 20em; 
-border-radius: 90%;
-max-width: 7em;
-background-color: rgb(185, 23, 23);
+  width: 30rem; /* rem is relative to element font's size  */
+  height: 30rem;
+  padding: 20px;
+  margin: 30px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(128, 128, 128, 1) 0%,
+    rgb(199, 197, 197) 50%,
+    rgb(128, 128, 128, 1) 100%
+  );
+  display: flex;
+  flex-direction: column; /* elements in column */
+  justify-content: center; /* horizontal alignment */
+  align-items: center; /* vertical alignment */
 }
 
 .active {
-
-background-color: aqua;
-
+  animation: breathe 3s ease-in-out infinite;
 }
 
-
-body{
-
-    background-color: rgb(180, 172, 172);
+#authorP,
+#quoteP,
+#quoteId {
+  text-align: center;
+  padding: 10px;
 }
 
-
-
-
-
-/* #quote{
-
-    
+body {
+  display: flex;
+  flex-direction: column; /* elements in column */
+  justify-content: center; /* horizontal alignment */
+  align-items: center; /* vertical alignment */
+  height: 100vh;
+  background: radial-gradient(
+    circle,
+    rgba(128, 128, 128, 1) 0%,
+    rgb(219, 219, 219) 50%,
+    rgba(128, 128, 128, 1) 100%
+  );
 }
 
+h3 {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%); /* Vertical adjustment */
+}
 
-#author{
-
-
-
-} */
+@keyframes breathe {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

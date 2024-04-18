@@ -1,54 +1,21 @@
-Project Name: Quote2Speech4u
+Quote2Speech4u
 
-# Quote2Speech4u
+Quote2Speech4u allows users to listen to random quotes fetched from an API and favorite them for later listening.
 
-//UI/Style-
+Features-
+Fetch Random Quotes: Clicking on the center widget fetches a random quote from the quotable.io API. The quote is then displayed along with its author.
+Listen to Quotes: The app utilizes the SpeechSynthesis API to read out the quotes aloud.
+Favorite Quotes: Users can click the "Favorite This Quote" button to add the currently displayed quote to the favorite list.
+Re-listen to Favorite Quotes: Clicking on a favorited quote in the "Favourite Quotes" section replays the quote.
 
-Widget in the center of the screen that is the interface for activating the quote2speech(q2s).
+How to Use-
+Click on the center widget to fetch a random quote and listen to it.
+To favorite a quote, click the "Favorite This Quote" button.
+Favorited quotes will appear in the "Favourite Quotes" section. Clicking on a favorited quote will replay it.
 
-When the widget is pressed/clicked the quote is displayed and read to the user,
+APIs Used-
+SpeechSynthesis API: Text-to-speech functionality.
+quotable.io API: Source of random quotes.
 
-the widget also animates/breathes when pressed.
-
-The widget deactivates ideally when the text-to-speech is finished.
-
-otherwise it will be a intense breathe followed by a very gradual relax to its natural state.
-
-The widget is not able to be pressed until it has completed its sequence.
-
-Need to initiate quote api to call and display quoite text
-
-then need to active quote to speech api.
-
-then once t2s is initated investigate whether i can link conditions to the api deactivating or activating.
-
-////
-todos-
-
-Prevent click default when function is already running.
-
-get author data into drop down.
-
-media buttons
-
-styling
-
-github pages
-
-user friendly README.md
-
-issues -
-Programming quote API all API returns 501, need to use differnt API
-
-15 second limit
-
-///
-
-// var mycars = ['Herr','Frau'];
-// var list = document.getElementById('anrede');
-
-// mycars.forEach(function(item){
-// var option = document.createElement('option');
-// option.value = item;
-// list.appendChild(option);
-// });
+Author
+-Daniel Meek
