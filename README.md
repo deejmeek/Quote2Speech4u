@@ -43,7 +43,7 @@ Refactoring - One large function was used, breaking it into small functions caus
 Unsolved Problems
 Inital API used did not allow access for all available quotes.
 Could not get dropdown filter search bar to work.
-Work around for chrome specific issue with speechSynthesis
+Work around for chrome specific issue with speechSynthesis not allowing character limits over ~250
 
 Discuss any challenges, issues, or major hurdles encountered during the development process that are yet to be resolved.
 
@@ -53,6 +53,7 @@ Multi quote API for richer quote pool.
 Accessibility options for those with vision impairment.
 Better stylings - especially the favourite list.
 Multi device compatibilty
+Media buttons to change pitch/rate/language of quote. Also play/pause buttons.
 
 Quote2Speech4u
 
