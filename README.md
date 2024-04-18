@@ -55,6 +55,7 @@ Better stylings - especially the favourite list.
 Multi device compatibilty
 Media buttons to change pitch/rate/language of quote. Also play/pause buttons.
 Improve UX/UI - make widget more obvious - explain the quote ID.
+Add author wiki data or a link to wiki for more infomation.
 
 Quote2Speech4u
 
