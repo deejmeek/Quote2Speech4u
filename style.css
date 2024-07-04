@@ -1,23 +1,21 @@
+/* Main container for the quote */
 #quoteDiv {
-  width: 20rem; /* rem is relative to element font's size  */
+  width: 20rem;
   height: 20rem;
   padding: 2rem;
-  margin: 3rem auto 3rem;
+  margin: 3rem auto;
   border-radius: 1rem;
-  border-style: solid;
-  background: radial-gradient(
-    circle,
-    rgba(128, 128, 128, 1) 0%,
-    rgb(199, 197, 197) 50%,
-    rgb(128, 128, 128, 1) 100%
-  );
+  border: 1px solid #2c3e50;
+  background: #34495e;
   display: flex;
-  flex-direction: column; /* elements in column */
-  justify-content: center; /* horizontal alignment */
-  align-items: center; /* vertical alignment */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Animation for active state */
 .active .bar {
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
@@ -25,6 +23,7 @@
   animation-name: wave-lg;
 }
 
+/* Text alignments and colors */
 #authorP,
 #quoteP,
 #quoteId {
@@ -32,26 +31,52 @@
   padding: 0px;
 }
 
-body {
-  display: flex;
-  flex-direction: column; /* elements in column */
-  justify-content: center; /* horizontal alignment */
-  align-items: center; /* vertical alignment */
-  height: 50rem;
-  background: linear-gradient(rgb(255, 255, 255) 0%, rgb(72, 94, 95) 50%);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+#authorP {
+  color: #ecf0f1;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+#quoteP {
+  color: #bdc3c7;
+  font-size: 1.2rem;
+}
+
+#quoteId {
+  color: #95a5a6;
+  font-size: 0.8rem;
+  margin-top: 1rem;
+}
+
+h1 {
+  color: #f39c12;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 h3 {
-  /* position: static; */
-  /* display: flex;
-  justify-content: flex-start; */
-  /* left: 20px;
-  top: 50%; */
-  /* transform: translateY(1500%) translateX(75%); Vertical adjustment */
+  color: #f39c12;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
 }
 
+/* Main body styling */
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "Arial", sans-serif;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+/* Sound wave container positioning */
 #soundWaveContainer {
   position: absolute;
   bottom: 0;
@@ -70,15 +95,8 @@ h3 {
   justify-content: center;
 }
 
-.sound-wave {
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .bar {
-  background: #f32968;
+  background: #f39c12;
   margin: 0 1.5px;
   height: 1px;
   width: 1px;
@@ -95,6 +113,7 @@ h3 {
   }
 }
 
+/* Animation keyframes */
 @keyframes wave-sm {
   0% {
     opacity: 0.35;
@@ -128,6 +147,7 @@ h3 {
   }
 }
 
+/* Responsive typography */
 @media screen and (max-width: 1400px) {
   html {
     font-size: 25px;
@@ -152,6 +172,65 @@ h3 {
   }
 }
 
+/* General text styling */
 .text {
   font-size: 3rem;
+}
+
+/* Button styling */
+#favButton {
+  padding: 0.5rem 1rem;
+  margin-bottom: 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #e74c3c;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#favButton:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+/* Favourite Quote Section */
+#favQuoteSection {
+  width: 100%;
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #2c3e50;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+#favQuoteSection h2 {
+  color: #f39c12;
+  margin-bottom: 1rem;
+}
+
+#favQuoteSection p {
+  color: #bdc3c7;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+#favQuoteSection button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #e74c3c;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#favQuoteSection button:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
 }
