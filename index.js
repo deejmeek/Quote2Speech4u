@@ -4,6 +4,8 @@ const authorP = document.getElementById("authorP");
 const idP = document.getElementById("quoteId");
 const favouriteH3 = document.getElementById("favouriteH3");
 const favBtn = document.getElementById("favButton");
+// const quoteContainer = document.getElementById("quoteContainer");
+// const soundWaveContainer = document.getElementById("soundWaveContainer");
 
 let clickEnabled = true; //variable to control if click events are allowed or not
 
@@ -100,3 +102,13 @@ function urlIdTrim(str) {
   const index = str.indexOf("-"); //finds the first "-" in the favourited quote string
   return str.substring(index + 1).trim(); //extracts the substring immediately after the "-" and trims it.
 }
+
+window.addEventListener("load", () => {
+  const bar = document.querySelectorAll(".bar");
+  for (let i = 0; i < bar.length; i++) {
+    bar.forEach((item, j) => {
+      // Random move
+      item.style.animationDuration = `${Math.random() * (0.7 - 0.2) + 0.2}s`; // Change the numbers for speed / ( max - min ) + min / ex. ( 0.5 - 0.1 ) + 0.1
+    });
+  }
+});
