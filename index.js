@@ -5,310 +5,240 @@ const idP = document.getElementById("quoteId");
 const favouriteH3 = document.getElementById("favouriteH3");
 const favBtn = document.getElementById("favButton");
 const clearAllBtn = document.getElementById("clearFavButton");
-const clearBtn = document.getElementById("clear-btn");
-// const quoteContainer = document.getElementById("quoteContainer");
-// const soundWaveContainer = document.getElementById("soundWaveContainer");
+const clearBtn = document.querySelector(".clear-btn");
+const favQuoteCont = document.getElementById("favourite-quote");
+const quoteText = document.getElementById("quote-text");
+const authorDiv = document.querySelector(".author");
+const quoteContent = document.getElementById("quote-content");
 
-let clickEnabled = true; //variable to control if click events are allowed or not
+let clickEnabled = true; //Variable to control if click events are allowed or not
 
-divTog.addEventListener("click", fetchData); // click listener on the divTog, activates fetchData func.
+divTog.addEventListener("click", fetchData); // Click listener on the divTog, activates fetchData func.
 
 async function fetchData() {
   //func to fetch data from API
-  if (!clickEnabled) return; //checks if clicks are allowed, exits function otherwise
-  clickEnabled = false; //blocks clicks to stop quote queuing or cut-offs
+  if (!clickEnabled) return; //Checks if clicks are allowed, exits function otherwise
+  clickEnabled = false; //Blocks clicks to stop quote queuing or cut-offs
 
-  speechSynthesis.cancel(); //work-around to over-ride chrome specific issue with media auto-play permission.
-  const res = await fetch("https://api.quotable.io/random?maxLength=200"); //calls data from API - maxlength=200 required to dance-arund chrome issue with character length
+  speechSynthesis.cancel(); //Work-around to over-ride chrome specific issue with media auto-play permission.
+  const res = await fetch("https://api.quotable.io/random?maxLength=200"); //Calls data from API - maxlength=200 required to dance-arund chrome issue with character length
   const data = await res.json();
-  displayQuote(data); //calls function to display the assocaited data
-  speakNow(data); //calls functions handling the speechsynthisis
+  displayQuote(data); //Calls function to display the assocaited data
+  speakNow(data); //Calls functions handling the speechsynthisis
 
-  divTog.classList.add("active"); //sets css to active for styling if quote is being read.
+  divTog.classList.add("active"); //Sets css to active for styling if quote is being read.
 }
 
 function displayQuote(data) {
-  //function handles populating <p> with quote strings.
+  //Function handles populating <p> with quote strings.
   authorP.textContent = data.author;
   quoteP.textContent = data.content;
-  // quoteP.textContent = `${data.content.slice(0, 100)}...`;
   idP.textContent = data._id;
-  // idP.textContent = "...";
 }
 
 function speakNow(data) {
-  //func. handles speechSynthesis API
+  //Func. handles speechSynthesis API
   let msg = data.content;
   const utterance = new SpeechSynthesisUtterance(msg);
   speechSynthesis.speak(utterance);
-  utterance.addEventListener("end", toggleWithUtterOnEnd); //listens for the 'end' of quote to call toggleWithUtterOnEnd
+  utterance.addEventListener("end", toggleWithUtterOnEnd); //Listens for the 'end' of quote to call toggleWithUtterOnEnd
 }
 
 function toggleWithUtterOnEnd(event) {
   //When end of quote is flagged active class is removed and clicks are allowed.
   divTog.classList.remove("active");
+
   clickEnabled = true;
 }
 
-function favQuote() {
-  //handles grabbing current quote and adding to fav list when btn is clicked.
-  favBtn.addEventListener("click", function () {
-    //Favourite Button event listener
-    const favouriteQuote = document.createElement("p"); //creates a new <p> element to hold the favourited quote
-    favouriteQuote.classList.add("favourite");
-    const existingQuotes = favouriteH3.querySelectorAll("p"); //holds all the current existing favourited quotes
-    const newQuoteText = `${authorP.textContent} - ${idP.textContent}`; //constructs the string of the author and the quote ID
+document.addEventListener("DOMContentLoaded", function () {
+  function favQuote() {
+    // Handles grabbing current quote and adding to fav list when btn is clicked.
+    favBtn.addEventListener("click", function () {
+      // Favourite Button event listener
+      const newQuoteText = `${quoteP.textContent}`; // construct the quote text
+      const newQuoteAuth = `${authorP.textContent}`; // construct the author text
+      const newQuoteId = `${idP.textContent}`; // construct the id text
 
-    let quoteExists = false; //sets an initial state to allow for checking for duplicate quotes
-    existingQuotes.forEach((quote) => {
-      //iterates through each favourited quote
-      // if (quote.textContent === newQuoteText) {
-      if (quote.dataset.id === idP.textContent) {
-        //compares the quote text of each favourited quote. if is a match then quoteExists is flagged as true
-        quoteExists = true;
-        return;
+      // Check if this quote already exists in favourites
+      const isQuoteExists = Array.from(
+        document.querySelectorAll(".favourite-quote") // Get all elements with the class "favourite-quote"
+      ).some((quote) => quote.dataset.id === idP.textContent); // Check if any of these elements have a data-id matching the current quote's ID
+
+      if (!isQuoteExists) {
+        // If the quote does not exist, add it to the favourites list
+        // Create elements for the new favourite quote
+        const favouriteQuote = document.createElement("div");
+        favouriteQuote.classList.add("favourite-quote"); // Add the "favourite-quote" class to the new div
+        favouriteQuote.dataset.id = idP.textContent; // Set the data-id attribute to the current quote's ID
+
+        const authorDiv = document.createElement("div"); // Create a new div element for the author
+        authorDiv.textContent = authorP.textContent; // Set the text content to the author's name
+        authorDiv.classList.add("author"); // Add the "author" class to the new div
+
+        const quoteContent = document.createElement("div"); // Create a new div element for the quote content
+        quoteContent.classList.add("quote-content"); // Add the "quote-content" class to the new div
+
+        const quoteText = document.createElement("p"); // Create a new paragraph element for the quote text
+
+        quoteText.textContent = quoteP.textContent; // Set the text content to the quote text
+        quoteText.classList.add("quote-text"); // Add the "quote-text" class to the paragraph
+
+        const clearBtn = document.createElement("button"); // Create a new button element for removing the favourite quote
+        clearBtn.textContent = "Remove"; // Set the button text to "Remove"
+        clearBtn.classList.add("clear-btn"); // Add the "clear-btn" class to the button
+
+        clearBtn.addEventListener("click", function () {
+          // Add an event listener to the button to handle the removal of the favourite quote
+          clearFavourite(favouriteQuote); // Call the clearFavourite function with the favouriteQuote element as an argument
+        });
+
+        // Append elements to construct the favourite quote
+        quoteContent.appendChild(quoteText);
+        quoteContent.appendChild(clearBtn);
+        favouriteQuote.appendChild(authorDiv);
+        favouriteQuote.appendChild(quoteContent);
+        favouriteH3.appendChild(favouriteQuote);
+
+        // Store the quote data in localstorage
+        addToFavourites(newQuoteText, newQuoteAuth, newQuoteId);
       }
+
+      utterFavQuote();
     });
+  }
 
-    if (!quoteExists) {
-      //appends <p> to favourited list under favourite h3 if quote does not already exist
-
-      // favouriteQuote.textContent = newQuoteText; //sets the textContent of created favourite <p>
-      favouriteQuote.textContent = `${authorP.textContent} - ...`;
-      favouriteQuote.dataset.id = idP.textContent;
-
-      const clearBtn = document.createElement("button");
-      clearBtn.textContent = "Clear";
-      clearBtn.classList.add("clear-btn");
-      clearBtn.addEventListener("click", function () {
-        clearFavourite(favouriteQuote);
-      });
-
-      favouriteQuote.appendChild(clearBtn);
-
-      favouriteH3.appendChild(favouriteQuote); //appends the newly created favourite <p> to the h3 favourited list.
-      addToFavourites(newQuoteText);
-      console.log(addToFavourites);
-    }
-
-    utterFavQuote();
-  });
-}
-favQuote();
+  favQuote();
+});
 
 async function utterFavQuote() {
-  //handles clicks on the favourite quote list
-  // const favList = favouriteH3.childNodes; //is a node list of the children of the Favourite Quotes h3
-  const favList = favouriteH3.querySelectorAll("p");
+  //Handles clicks on the favourite quote list
+  const favList = document.querySelectorAll(".favourite-quote");
 
   favList.forEach((node) => {
-    //click listener event for each child element
+    //Click listener event for each child element
     node.addEventListener("click", async () => {
-      if (!clickEnabled) return; //checks whether the element is allowed to be clicked - exits otherwise.
+      if (!clickEnabled) return; //Checks whether the element is allowed to be clicked - exits otherwise.
       clickEnabled = false; //sets the element to not allow clicks
       speechSynthesis.cancel(); ///work-around to over-ride chrome specific issue with media auto-play permission.
-      // const idurl = node.textContent; //grabs the content of the element
       const idurl = node.dataset.id;
-      // idUrlTrimmed = urlIdTrim(idurl); //calls trim func to give trimmed content to feed into API fetch
 
-      // const res = await fetch(`https://api.quotable.io/quotes/${idUrlTrimmed}`); //calls the favourited quote
-      const res = await fetch(`https://api.quotable.io/quotes/${idurl}`);
+      const res = await fetch(`https://api.quotable.io/quotes/${idurl}`); //calls the favourited quote
       const data = await res.json();
 
-      speakNow(data); //calls the speechSynthesis func.
-      displayQuote(data); //calls the func to display quote string to the quote widget
+      speakNow(data); //Calls the speechSynthesis func.
+      displayQuote(data); //Calls the func to display quote string to the quote widget
 
-      divTog.classList.add("active"); //sets quote widget to active to show active quote.
+      divTog.classList.add("active"); //Sets main quote div to active to show active quote.
+      favQuoteCont.classList.add("active"); //Sets favquote div to active to show active quote.
       clickEnabled = true;
     });
   });
 }
 
-function urlIdTrim(str) {
-  //func to take the text content of the favourited quote, deletes everything before the "-" and trims the white space
-  const index = str.indexOf("-"); //finds the first "-" in the favourited quote string
-  return str.substring(index + 1).trim(); //extracts the substring immediately after the "-" and trims it.
-}
-
 window.addEventListener("load", () => {
-  const bar = document.querySelectorAll(".bar");
+  // Add an event listener for the window load event.
+  const bar = document.querySelectorAll(".bar"); // Select all elements with the class "bar"
   for (let i = 0; i < bar.length; i++) {
+    // Iterate over each element in the NodeList using a for loop
     bar.forEach((item, j) => {
-      // Random move
-      item.style.animationDuration = `${Math.random() * (0.7 - 0.2) + 0.2}s`; // Change the numbers for speed / ( max - min ) + min / ex. ( 0.5 - 0.1 ) + 0.1
+      // Iterate over each element to set the animation duration
+
+      item.style.animationDuration = `${Math.random() * (0.7 - 0.2) + 0.2}s`; // Set the animation duration for each element to a random value between 0.2s and 0.7s
     });
   }
 });
 
 console.log(typeof Storage !== "undefined");
 
-// function enableFavouriteClicks() {
-//   const favList = favouriteH3.childNodes;
-//   favList.forEach((node) => {
-//     node.addEventListener("click", async () => {
-//       clickEnabled = true; // Enable clicks on favourite quotes
-//       speechSynthesis.cancel();
-//       const idurl = node.textContent;
-//       const idUrlTrimmed = urlIdTrim(idurl);
-//       const res = await fetch(`https://api.quotable.io/quotes/${idUrlTrimmed}`);
-//       const data = await res.json();
+function addToFavourites(quote, author, id) {
+  // Func adds quote, author and id to localstorage
+  let favourites = JSON.parse(localStorage.getItem("favourites")) || []; // Retrieve favourites from localstorage, or initialize an empty array if none exist
+  favourites.push(quote, author, id); // Add the new quote, author, and id to the list of favourites
+  localStorage.setItem("favourites", JSON.stringify(favourites)); // Save updated list of favourites to localstorage
+}
 
-//       speakNow(data);
-//       displayQuote(data);
-//       divTog.classList.add("active");
-//     });
-//   });
-// }
+document.addEventListener("DOMContentLoaded", function () {
+  // Get the element that will contain the favourite quotes
+  const favouriteH3 = document.getElementById("favouriteH3");
 
-function saveToFavourites(quote) {
-  if (typeof Storage !== "undefined") {
-    console.log(
-      "Before setting item:",
-      localStorage.getItem("favouriteQuotes")
-    );
-    let favourites = JSON.parse(localStorage.getItem("favouriteQuotes")) || [];
-    if (typeof quote === "string") {
-      favourites.push(quote);
-    } else {
-      console.log("skipping non-string quote:", quote);
+  const favourites = JSON.parse(localStorage.getItem("favourites")) || []; // Retrieve favourites from localstorage, or initialize an empty array if none exist
+
+  favourites.forEach((item, index) => {
+    // Iterate over the favourites array
+    if (index % 3 === 0) {
+      // Check if it's the start of a new quote set (every 3 items)
+      const quoteText = item; // Extract the quote text, author, and id from the favourites array
+      const author = favourites[index + 1]; // Get author from the next item
+      const id = favourites[index + 2]; // Get id from the item after author
+
+      const favouriteQuote = document.createElement("div"); // Create a div element to represent the favourite quote
+      favouriteQuote.classList.add("favourite-quote");
+
+      const authorDiv = document.createElement("div"); // Create a div element for the author
+      authorDiv.textContent = author;
+      authorDiv.classList.add("author");
+
+      const quoteContent = document.createElement("div"); // Create a div element to contain the quote text and clear button
+      quoteContent.classList.add("quote-content");
+
+      const quoteTextElement = document.createElement("p"); // Create a p element to display the quote text
+      quoteTextElement.textContent = quoteText;
+      quoteTextElement.classList.add("quote-text");
+
+      const clearBtn = document.createElement("button"); // Create a button element to remove the favourite quote
+      clearBtn.textContent = "Remove";
+      clearBtn.classList.add("clear-btn");
+      clearBtn.addEventListener("click", function () {
+        clearFavourite(favouriteQuote);
+      });
+
+      quoteContent.appendChild(quoteTextElement); // Append the quote text and clear button to the quote content container
+      quoteContent.appendChild(clearBtn);
+
+      favouriteQuote.appendChild(authorDiv); // Append the author and quote content container to the favourite quote element
+      favouriteQuote.appendChild(quoteContent);
+
+      favouriteH3.appendChild(favouriteQuote); // Append the favourite quote element to the favourite quotes container
+      favouriteQuote.addEventListener("click", async () => {
+        //Click event listener to the favourite quote element
+        if (!clickEnabled) return; // If clicks are disabled, exit the function
+        clickEnabled = false;
+
+        speechSynthesis.cancel(); //Work-around to over-ride chrome specific issue with media auto-play permission.
+
+        const res = await fetch(`https://api.quotable.io/quotes/${id}`); // Fetch the quote data from the API using the id
+        const data = await res.json();
+
+        speakNow(data);
+        displayQuote(data);
+
+        divTog.classList.add("active");
+        favQuoteCont.classList.add("active");
+
+        clickEnabled = true;
+      });
     }
-
-    // favourites.push(quote);
-    // console.log("After setting item:", localStorage.getItem("favouriteQuotes"));
-    localStorage.setItem("favouriteQuotes", JSON.stringify(favourites));
-    console.log("Quote saved to favourites:", quote);
-  } else {
-    console.log("localStorage is not ssupported.");
-  }
-}
-
-function getFavourites() {
-  if (typeof Storage !== "undefined") {
-    let favourites = JSON.parse(localStorage.getItem("favouriteQuotes")) || [];
-
-    console.log("Favourite quotes retrieved:", favourites);
-    return favourites;
-  } else {
-    console.log("localStorage is not supported.");
-    return [];
-  }
-}
-
-// function addToFavourites(quote) {
-//   saveToFavourites(quote);
-// }
-
-function addToFavourites(quote) {
-  let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
-  favourites.push(quote);
-  localStorage.setItem("favourites", JSON.stringify(favourites));
-  saveToFavourites(quote);
-}
-
-function displayFavourites() {
-  const favourites = getFavourites();
-}
-
-// window.addEventListener("load", () => {
-//   console.log("Page loaded");
-//   displayFavourites(); // Display favourites when the page loads
-// });
-
-window.addEventListener("DOMContentLoaded", () => {
-  console.log("DOMContentLoaded event fired");
-  displayFavourites(); // Display favourites when the document is ready
-});
-
-function displayFavourites() {
-  const favourites = getFavourites();
-  console.log("Displaying favourites:", favourites);
-  favourites.forEach((favourite) => {
-    const favouriteQuote = document.createElement("p");
-    const [author, id] = favourite.split(" - ");
-    favouriteQuote.textContent = `${author} - ...`;
-    favouriteQuote.dataset.id = id;
-    // favouriteQuote.textContent = favourite;
-    const clearBtn = document.createElement("button");
-    clearBtn.textContent = "Clear";
-    clearBtn.classList.add("clear-btn");
-    clearBtn.addEventListener("click", function () {
-      clearFavourite(favouriteQuote);
-    });
-    favouriteQuote.appendChild(clearBtn);
-
-    favouriteH3.appendChild(favouriteQuote);
   });
-  utterFavQuote();
-}
-
-// function clearFavourite(favouriteQuote) {
-//   favouriteQuote.remove();
-//   const favourites = getFavourites();
-//   const updatedFavourites = favourites.filter((favourite) => {
-//     const [author, id] = favourite.slpit(" - ");
-//     return id !== favouriteQuote.dataset.id;
-//   });
-//   localStorage.setItem("favouriteQuotes", JSON.stringify(updatedFavourites));
-
-//   console.log("Favourite cleared:", favouriteQuote.textContent);
-// }
-// function clearFavourite(favouriteQuote) {
-//   const quoteText = favouriteQuote.querySelector("p").textContent.trim();
-//   favouriteQuote.remove();
-
-//   // Remove from Local Storage
-//   let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
-//   favourites = favourites.filter((quote) => quote !== quoteText);
-//   localStorage.setItem("favourites", JSON.stringify(favourites));
-// }
+});
 
 function clearFavourite(favouriteQuote) {
-  const quoteText = favouriteQuote.querySelector("p").textContent.trim();
-  favouriteQuote.remove();
+  // Get the text content of the quote to be removed
+  const quoteText = favouriteQuote
+    .querySelector(".quote-text")
+    .textContent.trim();
+  favouriteQuote.remove(); // Remove the favourite quote element from the DOM
 
   // Remove from Local Storage
-  let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
-  favourites = favourites.filter((quote) => quote !== quoteText);
-  localStorage.setItem("favourites", JSON.stringify(favourites));
-  localStorage.removeItem();
+  let favourites = JSON.parse(localStorage.getItem("favourites")) || []; // Retrieve the list of favourite quotes from localStorage
+  // Filter out the quote to be removed from the favourites list
+  for (let i = 0; i < favourites.length; i += 3) {
+    //Favourites array structure is [quote,author,id,quote,author,id...]
+    if (favourites[i] === quoteText) {
+      //Remove quote, author, id from array
+      favourites.splice(i, 3);
+      break;
+    }
+  }
+  localStorage.setItem("favourites", JSON.stringify(favourites)); // Update the favourites list in localStorage
 }
-
-function clearFavourites() {
-  // Clear the favourites list in the DOM
-  favouriteH3.innerHTML = "";
-
-  // Clear the favourites from local storage
-  localStorage.removeItem("favouriteQuotes");
-
-  console.log("Favourites cleared");
-}
-
-clearAllBtn.addEventListener("click", clearFavourites);
-
-clearBtn.addEventListener("click", clearFavourite);
-
-window.addEventListener("DOMContentLoaded", function () {
-  const favourites = JSON.parse(localStorage.getItem("favourites")) || [];
-  const favQuotesContainer = document.getElementById(
-    "favouriteQuotesContainer"
-  );
-
-  favourites.forEach((quote) => {
-    const favouriteQuote = document.createElement("div");
-    favouriteQuote.classList.add("favourite");
-
-    const quoteContent = document.createElement("p");
-    quoteContent.textContent = quote;
-    favouriteQuote.appendChild(quoteContent);
-
-    const clearBtn = document.createElement("button");
-    clearBtn.textContent = "Clear";
-    clearBtn.classList.add("clear-btn");
-    clearBtn.addEventListener("click", function () {
-      clearFavourite(favouriteQuote);
-    });
-    favouriteQuote.appendChild(clearBtn);
-
-    favQuotesContainer.appendChild(favouriteQuote);
-  });
-});

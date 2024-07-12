@@ -1,63 +1,80 @@
-Project Name -
+Project Name
 Quote2Speech4u
 
-Deployed App URL-
-https://funkystud.github.io/Quote2Speech4u/
+Deployed App URL
+[Quote2Speech4u](https://deejmeek.github.io/Quote2Speech4u/)
 
 Table of Contents
-Overview
-Screenshot
-External API(s)
-Unsolved Problems
-Future Features
+-Overview
+-How to Use
+-Features
+-Screenshot
+-External APIs
+-Solved Problems
+-Known Bugs
+-Unsolved Problems
+-Future Features
+-Todo
 
-Overview-
-Quote2Speech4u allows users to listen to random quotes fetched from an API and favorite them for later listening.
+--Overview--
 
-How to Use-
-Click on the center widget to fetch a random quote and listen to it.
-To favorite a quote, click the "Favorite This Quote" button.
-Favorited quotes will appear in the "Favourite Quotes" section. Clicking on a favorited quote will replay it.
+Quote2Speech4u is a web application that allows users to listen to random quotes fetched from an API and favorite them for later listening. The app utilizes the SpeechSynthesis API to read the quotes aloud and stores the user's favorite quotes in local storage for easy access.
 
-Features-
-Fetch Random Quotes: Clicking on the center widget fetches a random quote from the quotable.io API. The quote is then displayed along with its author.
-Listen to Quotes: The app utilizes the SpeechSynthesis API to read out the quotes aloud.
-Favorite Quotes: Users can click the "Favorite This Quote" button to add the currently displayed quote to the favorite list.
-Re-listen to Favorite Quotes: Clicking on a favorited quote in the "Favourite Quotes" section replays the quote.
+--How to Use--
+-Fetch a Quote: Click on the center widget to fetch a random quote from the quotable.io API.
+-Listen to a Quote: The fetched quote will be read aloud using the SpeechSynthesis API.
+-Favorite a Quote: Click the "Favorite This Quote" button to add the currently displayed quote to your list of favorites.
+-Replay a Favorite Quote: Click on any quote in the "Favourite Quotes" section to have it read aloud again.
 
-Screenshot
-https://imgur.com/GyqZpv4.png
+--Features--
+-Fetch Random Quotes: Clicking on the center widget fetches a random quote from the quotable.io API and displays it along with its author.
+-Listen to Quotes: Utilizes the SpeechSynthesis API to read the quotes aloud.
+-Favorite Quotes: Users can click the "Favorite This Quote" button to add the current quote to their favorites.
+-Replay Favorite Quotes: Clicking on a favorited quote in the "Favourite Quotes" section replays the quote.
 
-External API(s)-
+--Screenshot--
 
-SpeechSynthesis API: Text-to-speech functionality.
-quotable.io API: Source of random quotes.
+https://i.imgur.com/c1pXGD5.png
 
-Solved Problems
-Toggling the active state depending on the quote being read state
-Toggling whether an element was allowing a click event or not depending if a quote was being read.
-Making quotes in the favourite list clickable and fetching from the API
-Extracting a substring to be used for the fetch
-Refactoring - One large function was used, breaking it into small functions caused some issues. Especially with toggling clickable events.
+--External APIs--
+-SpeechSynthesis API: Provides text-to-speech functionality.
+-quotable.io API: Source of random quotes.
 
-Unsolved Problems
-Inital API used did not allow access for all available quotes.
-Could not get dropdown filter search bar to work.
-Work around for chrome specific issue with speechSynthesis not allowing character limits over ~250
+--Solved Problems--
+-Toggling the active state based on whether a quote is being read.
+-Managing click events depending on the reading state of a quote.
+-Making quotes in the favorite list clickable and fetching the corresponding quote from the API.
+-Extracting and using substrings for API fetch requests.
+-Refactoring large functions into smaller ones while maintaining functionality, particularly with toggling clickable events.
 
-Discuss any challenges, issues, or major hurdles encountered during the development process that are yet to be resolved.
+--Known Bugs--
+-When the remove quote button is clicked, the quote is then read aloud. This behavior is not intended.
 
-Future Features
-A dropdown search bar for Authors & Categories.
-Multi quote API for richer quote pool.
-Accessibility options for those with vision impairment.
-Better stylings - especially the favourite list.
-Multi device compatibilty
-Media buttons to change pitch/rate/language of quote. Also play/pause buttons.
-Improve UX/UI - make widget more obvious - explain the quote ID.
-Add author wiki data or a link to wiki for more infomation.
-Add error handling
+--Unsolved Problems--
+-Workaround for a Chrome-specific issue with SpeechSynthesis API character limits (>~250 characters).
 
-Quote2Speech4u
+--Future Features--
+-Implementing a dropdown search bar for filtering by authors and categories.
+-Integrating multiple quote APIs for a richer quote pool.
+-Adding accessibility options for users with vision impairments.
+-Adding media controls to adjust pitch, rate, and language of quotes, as well as play/pause buttons.
+-Adding Wikipedia section to give context on author.
+-Add light/dark mode.
+-Add user registration.
+-Allow comment section on favourited quotes
+-Implement favourite quote limit for non-registered users.
 
--Daniel Meek
+--Todo-- (priority order)
+1.Favourite and remove button needs adjusting/repositioning.
+-Move 'favourite' button below quote div
+-'Remove favourite' button justify to the right of quote.
+2.Tweak media queries.
+3.Improving UX/UI.
+-Adjust styling to handle 10+ favourited quotes.
+-Displaying favourite quote is jarring.
+4.Richer error handling.
+5.Refactor large functions.
+6.Refactor soundwave animation to dynamically create .bar element to reduce html.index bloat.
+7.Tweak media queries.
+
+Quote2Speech4u was developed by Daniel Meek.
